@@ -36,3 +36,47 @@ The formulas used within this package will also be heavily used in EcoSimic Inte
 7 A Comparison of Programming Languages in Economics: An Update - https://www.sas.upenn.edu/~jesusfv/Update_March_23_2018.pdf
 
 8 Statistica https://www.statista.com/statistics/793628/worldwide-developer-survey-most-used-languages/
+
+# Discussion
+There are a multitude of items which still need to be added to this package, as detailed below, along with applicable caveats.
+
+- <b> Economic Policy Uncertainty </b><br>
+  <br>
+  <u>Discussion</u>:<br>
+  Although EPU is a vital indicator, relating to a wide variety of fields, caution should be aired when using certain methods to avoid overzealous acclamation of causation. <br> <br>
+  For instance, when using newspaper coverage frequency (see Ref.i), awareness of the potential ulterior motives which could drive the coverage media should be maintained, as this could result in sensationalisation, especially around negative events (Ref.2), to increase sales/attention acquisition, falsely swaying indicators.<br><br>
+  Evading this in general should be done by attempting to acquire additional data to weight these metrics, potentially by creating relevant indexes if they are not already available. (for the above example, development of such an index using language modelling would be perfectly possible given sufficient time/processing power.<br><br>
+  <u>Data Sources</u>:<br>
+  1. <a>https://www.policyuncertainty.com/index.html</a><br>
+  <br>
+  <u>References</u>:<br>
+  1. <a>https://academic.oup.com/qje/article/131/4/1593/2468873</a><br> 
+  2. <a>https://journals.sagepub.com/doi/10.1177/1748048512459143</a><br> 
+
+  <br>
+- <b> Trade Statistics </b><br>
+  <br>
+  <u>Discussion</u>:<br>
+  Ideally getting to the point where near real-time stats are available, enabling a solid understanding of macro factors and AI supported trend analysis.<br>
+  <br>
+  <u>Data Sources</u>:<br>
+  1. ComTrade Portal - <a>https://comtrade.un.org/data/dev/portal/</a><br>
+  
+  <br>
+  <u>References</u>:<br>
+  1. Manual on Statistics of International Trade in Services 2010 - <br><a>https://unstats.un.org/unsd/publication/seriesm/seriesm_86rev1e.pdf</a> <br>
+  2. International Merchandise Trade Statistics: Compilers Manual, Revision 1 2010 - <br><a>https://unstats.un.org/unsd/trade/publications/seriesf_87Rev1_e_cover.pdf</a> <br>
+  3. Balance of Payments and International Investment Position Manual - <br><a>https://www.imf.org/external/pubs/ft/bop/2007/pdf/bpm6.pdf</a> <br>
+  
+  <br>
+- <b> National Statistics </b><br>
+  <br>
+  <u>Discussion</u>:<br>
+  Developing and updating the Good Country Index, developing algorithms to enable near real time calculations. <br> 
+  <br>
+  <u>Data Sources</u>:<br>
+  1. Good Country Index - <a>https://www.goodcountry.org/index/source-data/</a><br>
+  2. Index of Economic Freedom - <a>https://www.heritage.org/index/?version=668</a><br>
+  3. National Government Statistics - including company concentration/start ups by industry, education, agriculture, etc<br>
+  4. Additional NGO Statistics - including pollution, soil type, wildlife species, traffic, etc<br>
+  <br>
