@@ -145,7 +145,7 @@ of frozen peas) and that it has not changed in quality etc between time periods.
 # for the two periods, 0 and t, to be compared.
 
 # 1 / n ( Sum of (t2_price[i]/price[i]) )
-def Cali_Price_Index(
+def Carli_Price_Index(
         price, t2_price
 ):
     array=[]
@@ -190,6 +190,7 @@ def Jevons_Price_Index(
     return method_1
 
 
+
 def Current_to_Current_Index(
         type, data
 ):
@@ -200,7 +201,7 @@ def Current_to_Current_Index(
     for i, item in enumerate(data):
         try:
             if type == 'C':
-                result.append(Cali_Price_Index(data[i], data[i+1]))
+                result.append(Carli_Price_Index(data[i], data[i+1]))
             elif type == 'D':
                 result.append(Dutot_Price_Index(data[i], data[i+1]))
             elif type == 'J':
@@ -219,7 +220,7 @@ def Current_to_Current_Index(
 
 
 # Type can be any of the following:
-# C = Cali
+# C = Carli
 # D = Dutot
 # J = Jevons
 
@@ -236,7 +237,10 @@ def Chained_Elementary_Aggregates(
     for i, item in enumerate(data):
         try:
             if type == 'C':
-                result.append(Cali_Price_Index(data[i], data[i+1]))
+                result.append(Carli_Price_Index(data[i], data[i+1]))
+                print(data[i])
+                print(data[i+1])
+                print(Carli_Price_Index(data[i], data[i+1]))
             elif type == 'D':
                 result.append(Dutot_Price_Index(data[i], data[i+1]))
             elif type == 'J':
@@ -250,25 +254,33 @@ def Chained_Elementary_Aggregates(
 
     for i, item in enumerate(result):
         final.append(np.prod(result[0:i+1]))
+        if type == 'C':
+            print('asdfosd')
+            print(np.prod(result[0:i+1]))
+
+
+    if type == 'C':
+        print('here')
+        print(final)
 
     return final
 
 
 def Direct_Index_On_t1(
-        type, data
+        type, price_data
 ):
     result=[1]
 
-    print('Computing individual values for '+str(len(data))+' values')
+    print('Computing individual values for '+str(len(price_data))+' values')
 
-    for i, item in enumerate(data):
+    for i, item in enumerate(price_data):
         try:
             if type == 'C':
-                result.append(Cali_Price_Index(data[0], data[i+1]))
+                result.append(Carli_Price_Index(price_data[0], price_data[i+1]))
             elif type == 'D':
-                result.append(Dutot_Price_Index(data[0], data[i+1]))
+                result.append(Dutot_Price_Index(price_data[0], price_data[i+1]))
             elif type == 'J':
-                result.append(Jevons_Price_Index(data[0], data[i+1]))
+                result.append(Jevons_Price_Index(price_data[0], price_data[i+1]))
             else:
                 print('Please insert either C, D, or J')
         except:
@@ -436,7 +448,7 @@ def Laspeyres_Price_Index(
         t1.append(price[i] * quantity[i])
         t2.append(t2_price[i] * quantity[i])
 
-    result=np.sum(t2) / np.sum(t1)
+    result= (np.sum(t2) / np.sum(t1))
     
     # array = []
     # for i, item in enumerare(price):
@@ -445,6 +457,47 @@ def Laspeyres_Price_Index(
     # result_1 = np.sum(array)
 
     return result
+
+price = pd.read_csv('Price.csv')
+quantity = pd.read_csv('Quantity.csv')
+
+period_list = price.columns.values
+period_list = period_list[1:]
+print(period_list)
+array=[]
+
+for i, period in enumerate(period_list):
+    if i+1 != len(period_list):
+        price_list = price['Period 1'].tolist()
+        quantity_list = quantity['Period 1'].tolist()
+        price_2_list = price[period_list[i+1]].tolist()
+        array.append(Laspeyres_Price_Index(price_list, quantity_list, price_2_list))
+
+print(array)
+# print(Laspeyres_Price_Index([1,1,1,1,1,1], [1,1,2,1,4.5,0.5], [1.2,3,1.3,0.7,1.4,0.8]))
+
+
+carl=[]
+
+for i, period in enumerate(period_list):
+    if i+1 != len(period_list):
+        price_list = price['Period 1'].tolist()
+        quantity_list = quantity['Period 1'].tolist()
+        price_2_list = price[period_list[i+1]].tolist()
+        carl.append(Carli_Price_Index(price_list, price_2_list))
+print('carl')
+print(carl)
+
+jev=[]
+
+for i, period in enumerate(period_list):
+    if i+1 != len(period_list):
+        price_list = price['Period 1'].tolist()
+        quantity_list = quantity['Period 1'].tolist()
+        price_2_list = price[period_list[i+1]].tolist()
+        jev.append(Jevons_Price_Index(price_list, price_2_list))
+print('jev')
+print(jev)
 
 
 # Passche - 1874
@@ -473,8 +526,16 @@ def Paasche_Price_Index(
 # -------------------
 # Sum of W(Pt1 * Qt1)
 
+p = []
+for i, period in enumerate(period_list):
+    if i+1 != len(period_list):
+        price_list=price['Period 1'].tolist()
+        quantity_2_list=quantity[period_list[i+1]].tolist()
+        price_2_list=price[period_list[i+1]].tolist()
+        p.append(Paasche_Price_Index(price_list, price_2_list, quantity_2_list))
 
-
+print('pas')
+print(p)
 
 def Laspeyres_Price_Index_Weight(
         price, quantity, t2_price, t2_quantity,
@@ -717,8 +778,7 @@ def Marshall_Edgeworth_Price_Index(
 
 
 
-# pie=np.array(
-#     [[6, 7, 2, 5], [6, 7, 3, 5], [7, 6, 4, 5], [6, 7, 5, 4], [6, 7, 2, 5], [6, 7.2, 3, 5], [6.6, 7.7, 2.2, 5.5]])
+
 #
 # pie_weight=np.array(
 #     [[0.25, 0.25, 0.25, 0.25], [0.25, 0.25, 0.25, 0.25], [0.25, 0.25, 0.25, 0.25], [0.25, 0.25, 0.25, 0.25], [0.25, 0.25, 0.25, 0.25], [0.25, 0.25, 0.25, 0.25], [0.25, 0.25, 0.25, 0.25]])
@@ -813,7 +873,7 @@ def Ratio_of_Harmonic_Mean_Prices(
 
     return t1/t2
 
-print(Ratio_of_Harmonic_Mean_Prices([6, 7, 2, 5], [6, 7, 3, 5]))
+# print(Ratio_of_Harmonic_Mean_Prices([6, 7, 2, 5], [6, 7, 3, 5]))
 
 
 
@@ -855,9 +915,9 @@ def Golden_Ratio(
 # Fails transitivity test
 # Empirically observed to be close to Jevons Index
 def C_S_W_D_Price_Index(
-        Cali_Index, Harmonic_Mean
+        Carli_Index, Harmonic_Mean
 ):
-    return np.sqrt((Cali_Index*Harmonic_Mean))
+    return np.sqrt((Carli_Index*Harmonic_Mean))
 
 
 #
@@ -1093,44 +1153,58 @@ def Prices_Indices_For_An_Elementary_Aggregate(
     return result
 
 
-# Export to CSV
 #
-# pizza= np.rot90(Prices_Indicies_For_An_Elementary_Aggreate(pie, 0))
-# pizza= np.rot90(pizza)
-# pizza= np.rot90(pizza)
-# pizza= np.fliplr(pizza)
-#
-# cols = ['t1', '1', '2', '3', '4', '5', '6']
-# index = ['Product A: Price',
-#          'Product B: Price',
-#          'Product C: Price',
-#          'Product D: Price',
-#          'Arithmetic Mean Prices',
-#          'Geometric Mean Prices',
-#          'Product A: Period to Period Price Relatives',
-#          'Product B: Period to Period Price Relatives',
-#          'Product C: Period to Period Price Relatives',
-#          'Product D: Period to Period Price Relatives',
-#          'Product A: Current to Reference Price Relatives',
-#          'Product B: Current to Reference Price Relatives',
-#          'Product C: Current to Reference Price Relatives',
-#          'Product D: Current to Reference Price Relatives',
-#          'Carli: Period to Period Index',
-#          'Carli: Chained Period to Period Index',
-#          'Carli: Direct Index on Reference',
-#          'Dutot: Period to Period Index',
-#          'Dutot: Chained Period to Period Index',
-#          'Dutot: Direct Index on Reference',
-#          'Jevons: Period to Period Index',
-#          'Jevons: Chained Period to Period Index',
-#          'Jevons: Direct Index on Reference',
-#          ]
-#
-# dataset = pd.DataFrame(data=pizza[0:, 0:],  # values
-#              index=index,  # 1st column as index
-#              columns=cols)
+# pie=np.array(
+#     [[6, 7, 2, 5], [6, 7, 3, 5], [7, 6, 4, 5], [6, 7, 5, 4], [6, 7, 2, 5], [6, 7.2, 3, 5], [6.6, 7.7, 2.2, 5.5]])
 
-# dataset.to_csv('test.csv')
+pie=np.array(
+    [[1,1,1,1,1,1], [1.2, 3, 1.3, 0.7, 1.4, 0.8], [1, 1, 1.5, 0.5, 1.7, 0.6], [0.8, 0.5, 1.6, 0.3, 1.9, 0.4], [1, 1, 1.6, 0.1, 2, 0.2]])
+
+# Export to CSV
+
+pizza= np.rot90(Prices_Indices_For_An_Elementary_Aggregate(pie, 0))
+pizza= np.rot90(pizza)
+pizza= np.rot90(pizza)
+pizza= np.fliplr(pizza)
+
+cols = ['Period 0', 'Period 1', 'Period 2', 'Period 3', 'Period 4']
+index = ['Product A: Price',
+         'Product B: Price',
+         'Product C: Price',
+         'Product D: Price',
+         'Product E: Price',
+         'Product F: Price',
+         'Arithmetic Mean Prices',
+         'Geometric Mean Prices',
+         'Product A: Period to Period Price Relatives',
+         'Product B: Period to Period Price Relatives',
+         'Product C: Period to Period Price Relatives',
+         'Product D: Period to Period Price Relatives',
+         'Product E: Period to Period Price Relatives',
+         'Product F: Period to Period Price Relatives',
+         'Product A: Current to Reference Price Relatives',
+         'Product B: Current to Reference Price Relatives',
+         'Product C: Current to Reference Price Relatives',
+         'Product D: Current to Reference Price Relatives',
+         'Product E: Current to Reference Price Relatives',
+         'Product F: Current to Reference Price Relatives',
+         'Carli: Period to Period Index',
+         'Carli: Chained Period to Period Index',
+         'Carli: Direct Index on Reference',
+         'Dutot: Period to Period Index',
+         'Dutot: Chained Period to Period Index',
+         'Dutot: Direct Index on Reference',
+         'Jevons: Period to Period Index',
+         'Jevons: Chained Period to Period Index',
+         'Jevons: Direct Index on Reference',
+         ]
+
+dataset = pd.DataFrame(data=pizza[0:, 0:],  # values
+             index=index,  # 1st column as index
+             columns=cols)
+print(dataset)
+
+dataset.to_csv('test.csv')
 
 # #The social welfare function (SWF) methodology is a systematic framework for assessing governmental policy. It represents a major step beyond cost-benefit analysis (CBA), currently the dominant policy-assessment tool. The SWF framework is well established in certain parts of the economics literature — such as theoretical welfare economics, optimal tax theory, and climate economics — but unlike CBA is not yet used by governments. While CBA quantifies well-being impacts in monetary units (via the construct of willingness to pay/accept), the SWF framework does so using an interpersonally comparable well-being measure.
 #
