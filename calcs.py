@@ -1156,55 +1156,55 @@ def Prices_Indices_For_An_Elementary_Aggregate(
 #
 # pie=np.array(
 #     [[6, 7, 2, 5], [6, 7, 3, 5], [7, 6, 4, 5], [6, 7, 5, 4], [6, 7, 2, 5], [6, 7.2, 3, 5], [6.6, 7.7, 2.2, 5.5]])
-
-pie=np.array(
-    [[1,1,1,1,1,1], [1.2, 3, 1.3, 0.7, 1.4, 0.8], [1, 1, 1.5, 0.5, 1.7, 0.6], [0.8, 0.5, 1.6, 0.3, 1.9, 0.4], [1, 1, 1.6, 0.1, 2, 0.2]])
-
-# Export to CSV
-
-pizza= np.rot90(Prices_Indices_For_An_Elementary_Aggregate(pie, 0))
-pizza= np.rot90(pizza)
-pizza= np.rot90(pizza)
-pizza= np.fliplr(pizza)
-
-cols = ['Period 0', 'Period 1', 'Period 2', 'Period 3', 'Period 4']
-index = ['Product A: Price',
-         'Product B: Price',
-         'Product C: Price',
-         'Product D: Price',
-         'Product E: Price',
-         'Product F: Price',
-         'Arithmetic Mean Prices',
-         'Geometric Mean Prices',
-         'Product A: Period to Period Price Relatives',
-         'Product B: Period to Period Price Relatives',
-         'Product C: Period to Period Price Relatives',
-         'Product D: Period to Period Price Relatives',
-         'Product E: Period to Period Price Relatives',
-         'Product F: Period to Period Price Relatives',
-         'Product A: Current to Reference Price Relatives',
-         'Product B: Current to Reference Price Relatives',
-         'Product C: Current to Reference Price Relatives',
-         'Product D: Current to Reference Price Relatives',
-         'Product E: Current to Reference Price Relatives',
-         'Product F: Current to Reference Price Relatives',
-         'Carli: Period to Period Index',
-         'Carli: Chained Period to Period Index',
-         'Carli: Direct Index on Reference',
-         'Dutot: Period to Period Index',
-         'Dutot: Chained Period to Period Index',
-         'Dutot: Direct Index on Reference',
-         'Jevons: Period to Period Index',
-         'Jevons: Chained Period to Period Index',
-         'Jevons: Direct Index on Reference',
-         ]
-
-dataset = pd.DataFrame(data=pizza[0:, 0:],  # values
-             index=index,  # 1st column as index
-             columns=cols)
-print(dataset)
-
-dataset.to_csv('test.csv')
+#
+# pie=np.array(
+#     [[1,1,1,1,1,1], [1.2, 3, 1.3, 0.7, 1.4, 0.8], [1, 1, 1.5, 0.5, 1.7, 0.6], [0.8, 0.5, 1.6, 0.3, 1.9, 0.4], [1, 1, 1.6, 0.1, 2, 0.2]])
+#
+# # Export to CSV
+#
+# pizza= np.rot90(Prices_Indices_For_An_Elementary_Aggregate(pie, 0))
+# pizza= np.rot90(pizza)
+# pizza= np.rot90(pizza)
+# pizza= np.fliplr(pizza)
+#
+# cols = ['Period 0', 'Period 1', 'Period 2', 'Period 3', 'Period 4']
+# index = ['Product A: Price',
+#          'Product B: Price',
+#          'Product C: Price',
+#          'Product D: Price',
+#          'Product E: Price',
+#          'Product F: Price',
+#          'Arithmetic Mean Prices',
+#          'Geometric Mean Prices',
+#          'Product A: Period to Period Price Relatives',
+#          'Product B: Period to Period Price Relatives',
+#          'Product C: Period to Period Price Relatives',
+#          'Product D: Period to Period Price Relatives',
+#          'Product E: Period to Period Price Relatives',
+#          'Product F: Period to Period Price Relatives',
+#          'Product A: Current to Reference Price Relatives',
+#          'Product B: Current to Reference Price Relatives',
+#          'Product C: Current to Reference Price Relatives',
+#          'Product D: Current to Reference Price Relatives',
+#          'Product E: Current to Reference Price Relatives',
+#          'Product F: Current to Reference Price Relatives',
+#          'Carli: Period to Period Index',
+#          'Carli: Chained Period to Period Index',
+#          'Carli: Direct Index on Reference',
+#          'Dutot: Period to Period Index',
+#          'Dutot: Chained Period to Period Index',
+#          'Dutot: Direct Index on Reference',
+#          'Jevons: Period to Period Index',
+#          'Jevons: Chained Period to Period Index',
+#          'Jevons: Direct Index on Reference',
+#          ]
+#
+# dataset = pd.DataFrame(data=pizza[0:, 0:],  # values
+#              index=index,  # 1st column as index
+#              columns=cols)
+# print(dataset)
+#
+# dataset.to_csv('test.csv')
 
 # #The social welfare function (SWF) methodology is a systematic framework for assessing governmental policy. It represents a major step beyond cost-benefit analysis (CBA), currently the dominant policy-assessment tool. The SWF framework is well established in certain parts of the economics literature — such as theoretical welfare economics, optimal tax theory, and climate economics — but unlike CBA is not yet used by governments. While CBA quantifies well-being impacts in monetary units (via the construct of willingness to pay/accept), the SWF framework does so using an interpersonally comparable well-being measure.
 #
