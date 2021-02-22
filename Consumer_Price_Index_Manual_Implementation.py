@@ -1,11 +1,58 @@
 import pandas as pd
 import numpy as np
 from decimal import *
-
+import xlsxwriter
 import asyncio
 
 import calcs as c
 
+
+# Create a Pandas Excel writer using XlsxWriter as the engine.
+writer = pd.ExcelWriter('Price_Indices.xlsx', engine='xlsxwriter')
+
+price=pd.read_csv('Price.csv')
+quantity=pd.read_csv('Quantity.csv')
+
+price.to_excel(writer, sheet_name='Price')
+quantity.to_excel(writer, sheet_name='Quantity')
+
+period_list=price.columns.values
+period_list=period_list[1:]
+price=pd.read_csv('Price.csv')
+quantity=pd.read_csv('Quantity.csv')
+
+period_list_1=price.columns.values
+period_list=period_list_1[1:]
+
+total_expenditure = []
+share = []
+
+
+for i, period in enumerate(period_list):
+    expenditure = []
+    for index, product in enumerate(price[period]):
+        # print(quantity.loc[index, period])
+        # print(price.loc[index, period])
+
+        expenditure.append(quantity.loc[index, period]*price.loc[index, period])
+
+    value = np.sum(expenditure)
+
+    total_expenditure.append(value)
+    array_2 = []
+    for index, item in enumerate(expenditure):
+        array_2.append(item/value)
+
+    share.append(array_2)
+
+share_df = pd.DataFrame()
+
+for i, item in enumerate(share):
+    share_df[f'Period {i+1}'] = item
+
+share_df.loc['Period Total'] = total_expenditure
+
+share_df.to_excel(writer, sheet_name='Share')
 
 def LPCDJ_Indices(
         price_data,
@@ -59,13 +106,10 @@ def LPCDJ_Indices(
 
     return result
 
-price=pd.read_csv('Price.csv')
-quantity=pd.read_csv('Quantity.csv')
 
-period_list=price.columns.values
-period_list=period_list[1:]
 
-# LPCDJ_Indices(price, quantity, period_list).to_csv('pie.csv')
+LPCDJ_Indices(price, quantity, period_list).to_excel(writer, sheet_name='LPCDJ')
+
 
 def Chain_Period_to_Period_LPCDJ_Indices(
         price_data,
@@ -136,8 +180,7 @@ def Chain_Period_to_Period_LPCDJ_Indices(
     print(result)
 
     return result
-# Chain_Period_to_Period_LPCDJ_Indices(price, quantity, period_list).to_csv('pizza.csv')
-
+Chain_Period_to_Period_LPCDJ_Indices(price, quantity, period_list).to_excel(writer, sheet_name='Chain_LPCDJ')
 
 
 async def Asymet_Weighted_Indices(
@@ -364,3 +407,6 @@ async def Five_Young_Indices(
                                     ])
 
     return result_df
+
+# Close the Pandas Excel writer and output the Excel file.
+writer.save()
